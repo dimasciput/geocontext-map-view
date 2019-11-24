@@ -45,4 +45,87 @@ body, html, .container, .row, .map {
     width: 100%;
     font-size: 2.5em;
     display: block;
+    margin-left: -8px !important;
+}
+
+.lat-lon-wrapper {
+    margin-top: 20px;
+}
+
+.lat, .lon {
+    font-size: 13pt;
+    color: #5b5b5b;
+    border-radius: 2px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #eaeaea;
+}
+
+.lat {
+    border-right: 2px solid white;
+}
+
+.lon {
+    border-left: 2px solid white;
+}
+
+.fetch-button-wrapper {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.fetch-button {
+    width: 100%;
+    height: 40px;
+    font-size: 13pt;
+    background: white;
+    border: 2px solid #646464;
+    border-radius: 2px;
+}
+
+.fetch-button:hover {
+    background: #f1f1f1;
+    cursor: pointer;
+}
+
+.fetch-button:active {
+    background: #e5e5e5;
+    color: black;
+}
+
+.fetch-button:disabled {
+    background: #e5e5e5;
+    border: 1px solid #dadada;
+    cursor: default;
+}
+
+.fetch-button:disabled:active {
+    background: #e5e5e5;
+    color: graytext;
+}
+
+.geocontext-data-container {
+    background-color: black;
+    color: white;
+}
+
+.geocontext-data {
+    display: none;
+    padding: 10px;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+pre {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 8pt;
+}
+
+.loading-container {
+    width: 100%;
+    text-align: center;
+    padding-top: 80px;
+    padding-bottom: 50px;
+    display: none;
 }

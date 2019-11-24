@@ -6,6 +6,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap"
           rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
     <link href="static/css/flexboxgrid-6.3.1/flexboxgrid.min.css"
           rel="stylesheet" type="text/css">
     <link href="static/v6.1.1-dist/ol.css"
@@ -14,8 +15,7 @@
           rel="stylesheet" type="text/css">
 
     <!-- development version, includes helpful console warnings -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script>
+    <script type="module">
         let mapTileKey = ''; // Add key in secret.js
     </script>
 
@@ -28,11 +28,30 @@
         </div>
         <div class="col-md-3 sidepanel">
             <div class="sidepanel-title">
-                GeoContext Data
+                <img src="static/geocontext-viewer-logo.png" width="100%" alt="">
             </div>
             <div class="sidepanel-subtitle">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 Duis porttitor sapien ut posuere ultricies. Proin at dui accumsan, vestibulum purus non, feugiat nulla.
+            </div>
+            <div class="lat-lon-wrapper">
+                <div class="row">
+                    <div class="col-sm-6 lat">
+                        Lat
+                    </div>
+                    <div class="col-sm-6 lon">
+                        Lon
+                    </div>
+                </div>
+            </div>
+            <div class="fetch-button-wrapper">
+                <button class="fetch-button" id="fetch-button">Fetch!</button>
+            </div>
+            <div class="geocontext-data-container">
+                <pre id="geocontext-data" class="geocontext-data"></pre>
+            </div>
+            <div class="loading-container">
+                <img src="static/loading.svg" alt=""/>
             </div>
         </div>
     </div>
