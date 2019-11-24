@@ -1,0 +1,48 @@
+html {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+body, html, .container, .row, .map {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.fullscreen:-webkit-full-screen {
+    height: 100%;
+    margin: 0;
+}
+
+.fullscreen:-ms-fullscreen {
+    height: 100%;
+}
+
+.fullscreen:fullscreen {
+    height: 100%;
+}
+
+.fullscreen {
+    margin-bottom: 10px;
+    width: 100%;
+    height: 400px;
+}
+
+.ol-rotate {
+    top: 3em;
+}
+
+.sidepanel {
+    height: 100%;
+    padding: 25px;
+}
+
+.sidepanel-title {
+    width: 100%;
+    font-size: 2.5em;
+    display: block;
+}

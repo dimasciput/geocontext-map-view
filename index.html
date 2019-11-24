@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GeoContext Map View</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap"
+          rel="stylesheet">
+    <link href="static/css/flexboxgrid-6.3.1/flexboxgrid.min.css"
+          rel="stylesheet" type="text/css">
+    <link href="static/v6.1.1-dist/ol.css"
+          rel="stylesheet" type="text/css">
+    <link href="static/css/main.css"
+          rel="stylesheet" type="text/css">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let mapTileKey = ''; // Add key in secret.js
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 no-padding">
+            <div id="map" class="map"></div>
+        </div>
+        <div class="col-md-3 sidepanel">
+            <div class="sidepanel-title">
+                GeoContext Data
+            </div>
+            <div class="sidepanel-subtitle">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Duis porttitor sapien ut posuere ultricies. Proin at dui accumsan, vestibulum purus non, feugiat nulla.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- OpenLayer v6.1.1 -->
+<script src="static/v6.1.1-dist/ol.js"></script>
+<script src="static/js/secret.js"></script>
+<script src="static/js/main.js"></script>
+</body>
+</html>
