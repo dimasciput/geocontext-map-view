@@ -76,26 +76,37 @@ body, html, .container, .row, .map {
 
 .fetch-button {
     width: 100%;
-    height: 40px;
-    font-size: 13pt;
+    height: 50px;
+    font-size: 18px;
     background: white;
-    border: 2px solid #646464;
-    border-radius: 2px;
+    font-weight: 300;
+    border: 2px solid #394a6d;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    overflow: hidden;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: color, background-color;
+    transition-property: color, background-color;
 }
 
 .fetch-button:hover {
-    background: #f1f1f1;
+    background: #305c91;
+    color: white;
     cursor: pointer;
 }
 
 .fetch-button:active {
-    background: #e5e5e5;
-    color: black;
+    background: #305c91;
+    color: white;
 }
 
 .fetch-button:disabled {
     background: #e5e5e5;
     border: 1px solid #dadada;
+    color: white;
     cursor: default;
 }
 
@@ -114,7 +125,7 @@ body, html, .container, .row, .map {
     padding: 10px;
     overflow-x: auto;
     overflow-y: auto;
-    max-height: 400px;
+    max-height: 350px;
 }
 
 pre {
@@ -128,4 +139,15 @@ pre {
     padding-top: 80px;
     padding-bottom: 50px;
     display: none;
+}
+
+.response-time {
+    display: none;
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 300;
+    padding: 5px;
+    color: #2e8042;
+    background-color: #FFF8DC;
+    border: 1px solid #e6dfc6;
 }

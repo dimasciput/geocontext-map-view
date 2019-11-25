@@ -5,7 +5,12 @@
     let fetchBtn = document.getElementById('fetch-button');
     let geocontextDataElm = document.getElementById('geocontext-data');
     let loadingContainer = document.getElementsByClassName('loading-container')[0];
+    let geocontextGroupSelect = document.getElementById('geocontext-group-select');
+    let responseTimeWrapper = document.getElementsByClassName('response-time')[0];
 
+    let geocontextGroup = '';
+    let startFetchTime = null;
+    let endFetchTime = null;
     let lat = 0;
     let lon = 0;
     let geocontextUrl = 'https://geocontext.kartoza.com/api/v1/geocontext/value/group';
@@ -16,13 +21,18 @@
 
     // XHR request
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', `${geocontextUrl}/${lon}/${lat}/water_group`);
     xhr.onload = function() {
         if (xhr.status === 200) {
+            endFetchTime = (new Date()).getTime();
             loadingContainer.style.display = 'none';
             let jsonDataString = JSON.parse(xhr.responseText);
+
+            responseTimeWrapper.innerHTML = `Response time : ${endFetchTime - startFetchTime} ms`;
+            responseTimeWrapper.style.display = 'block';
+
             geocontextDataElm.innerHTML = JSON.stringify(jsonDataString, null, 1);
             geocontextDataElm.style.display = 'block';
+
             fetchBtn.disabled = false;
         }
         else {
@@ -86,6 +96,12 @@
     fetchBtn.addEventListener("click", function(){
         this.disabled = true;
         loadingContainer.style.display = 'block';
+        geocontextDataElm.style.display = 'none';
+        responseTimeWrapper.style.display = 'none';
+
+        geocontextGroup = geocontextGroupSelect.querySelector('.selected').dataset.value;
+        startFetchTime = (new Date()).getTime();
+        xhr.open('GET', `${geocontextUrl}/${lon}/${lat}/${geocontextGroup}`);
         xhr.send();
     });
 
