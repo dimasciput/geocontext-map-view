@@ -30,6 +30,7 @@
         }
     };
 
+    // Openlayer Map
     let map = new ol.Map({
         layers: [
             new ol.layer.Tile({
@@ -46,12 +47,40 @@
         })
     });
 
+    // Map ICON
+    let iconFeature = null;
+    let createOrMoveMapMarker = (coord) => {
+        if (!iconFeature) {
+            iconFeature = new ol.Feature({
+                geometry: new ol.geom.Point([0, 0]),
+            });
+            iconFeature.setStyle(new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 135],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    scale: 0.3,
+                    src: 'static/location-pointer.png'
+                })
+            }));
+            let iconLayer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [iconFeature]
+                })
+            });
+            map.addLayer(iconLayer);
+        }
+        iconFeature.getGeometry().setCoordinates(coord);
+    };
+
+    // Events
     map.on('singleclick', function (evt) {
         let coord = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
         lon = coord[0];
         lat = coord[1];
         lonElm.innerHTML = lon.toFixed(3);
         latElm.innerHTML = lat.toFixed(3);
+        createOrMoveMapMarker(evt.coordinate);
     });
 
     fetchBtn.addEventListener("click", function(){
@@ -61,3 +90,4 @@
     });
 
 })();
+
