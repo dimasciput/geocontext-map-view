@@ -1,7 +1,7 @@
 (function () {
     // Element variables
-    let latElm = document.getElementsByClassName('lat')[0];
-    let lonElm = document.getElementsByClassName('lon')[0];
+    let latElm = document.getElementById('lat');
+    let lonElm = document.getElementById('lon');
     let fetchBtn = document.getElementById('fetch-button');
     let geocontextDataElm = document.getElementById('geocontext-data');
     let loadingContainer = document.getElementsByClassName('loading-container')[0];
@@ -11,8 +11,6 @@
     let geocontextGroup = '';
     let startFetchTime = null;
     let endFetchTime = null;
-    let lat = 0;
-    let lon = 0;
     let geocontextUrl = 'https://geocontext.kartoza.com/api/v1/geocontext/value/group';
     let styleJson = 'https://a.tiles.mapbox.com/v2/aj.1x1-degrees.json';
     if (mapTileKey) {
@@ -59,7 +57,7 @@
 
     // Map ICON
     let iconFeature = null;
-    let createOrMoveMapMarker = (coord) => {
+    let createOrMoveMapMarker = (coord, setCenter=false) => {
         if (!iconFeature) {
             iconFeature = new ol.Feature({
                 geometry: new ol.geom.Point([0, 0]),
@@ -81,15 +79,37 @@
             map.addLayer(iconLayer);
         }
         iconFeature.getGeometry().setCoordinates(coord);
+        if (setCenter) {
+            map.getView().animate({
+                center: coord,
+                duration: 200
+            });
+        }
     };
 
     // Events
+    let coordinateInputChanged = (e) => {
+        let lon = lonElm.value;
+        let lat = latElm.value;
+        if (lon && lat) {
+            let coord = ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857');
+            createOrMoveMapMarker(coord, true);
+        }
+    };
+    let coordinateInputClicked = (e) => {
+        if (e.keyCode === 13) {
+            coordinateInputChanged(e);
+        }
+    }
+    latElm.addEventListener('focusout', coordinateInputChanged);
+    lonElm.addEventListener('focusout', coordinateInputChanged);
+    latElm.addEventListener('keyup', coordinateInputClicked);
+    lonElm.addEventListener('keyup', coordinateInputClicked);
+
     map.on('singleclick', function (evt) {
         let coord = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
-        lon = coord[0];
-        lat = coord[1];
-        lonElm.innerHTML = lon.toFixed(3);
-        latElm.innerHTML = lat.toFixed(3);
+        lonElm.value = coord[0].toFixed(4);
+        latElm.value = coord[1].toFixed(4);
         createOrMoveMapMarker(evt.coordinate);
     });
 
@@ -98,6 +118,8 @@
         loadingContainer.style.display = 'block';
         geocontextDataElm.style.display = 'none';
         responseTimeWrapper.style.display = 'none';
+        let lon = lonElm.value;
+        let lat = latElm.value;
 
         geocontextGroup = geocontextGroupSelect.querySelector('.selected').dataset.value;
         startFetchTime = (new Date()).getTime();

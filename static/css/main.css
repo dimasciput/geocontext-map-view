@@ -52,6 +52,19 @@ body, html, .container, .row, .map {
     margin-top: 20px;
 }
 
+.lat-lon-wrapper input[type=number] {
+    background: #eaeaea;
+    border: 0 !important;
+    font-size: 1.20rem;
+    width: 100%;
+    color: #5b5b5b;
+}
+
+.lat-lon-wrapper input:focus {
+    outline: none;
+    color: #5b5b5b;
+}
+
 .lat, .lon {
     font-size: 13pt;
     color: #5b5b5b;
