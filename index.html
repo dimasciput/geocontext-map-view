@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GeoContext Map View</title>
 
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&display=swap"
@@ -34,15 +35,16 @@
             </div>
             <div class="sidepanel-subtitle">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Duis porttitor sapien ut posuere ultricies. Proin at dui accumsan, vestibulum purus non, feugiat nulla.
             </div>
             <div class="lat-lon-wrapper">
                 <div class="row">
-                    <div class="col-sm-6 lat">
-                        <input type="number" id="lat" placeholder="Lat"/>
+                    <div class="col-xs-6 no-padding thin-right-border">
+                        <div class="label"><label for="lon">Longitude</label></div>
+                        <input type="number" id="lon" placeholder="Lon" class="lon"/>
                     </div>
-                    <div class="col-sm-6 lon">
-                        <input type="number" id="lon" placeholder="Lat"/>
+                    <div class="col-xs-6 no-padding thin-left-border">
+                        <div class="label"><label for="lat">Latitude</label></div>
+                        <input type="number" id="lat" placeholder="Lat" class="lat"/>
                     </div>
                 </div>
             </div>

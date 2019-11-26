@@ -58,11 +58,22 @@ body, html, .container, .row, .map {
     font-size: 1.20rem;
     width: 100%;
     color: #5b5b5b;
+    padding-left: 10px;
+    padding-right: 10px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 .lat-lon-wrapper input:focus {
     outline: none;
     color: #5b5b5b;
+}
+
+.lat-lon-wrapper .label {
+    width: 100%;
+    background-color: white;
+    font-weight: lighter;
 }
 
 .lat, .lon {
@@ -74,12 +85,12 @@ body, html, .container, .row, .map {
     background: #eaeaea;
 }
 
-.lat {
-    border-right: 2px solid white;
+.thin-left-border {
+    border-left: 3px solid white;
 }
 
-.lon {
-    border-left: 2px solid white;
+.thin-right-border {
+    border-right: 3px solid white;
 }
 
 .fetch-button-wrapper {
@@ -131,6 +142,8 @@ body, html, .container, .row, .map {
 .geocontext-data-container {
     background-color: black;
     color: white;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .geocontext-data {
@@ -139,11 +152,20 @@ body, html, .container, .row, .map {
     overflow-x: auto;
     overflow-y: auto;
     max-height: 350px;
+    width: 100%;
 }
 
 pre {
     font-family: 'Roboto Mono', monospace;
     font-size: 8pt;
+    width: 100%;
+    max-height: 350px;
+    overflow-y: auto;
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
 .loading-container {

@@ -8,6 +8,8 @@
     let geocontextGroupSelect = document.getElementById('geocontext-group-select');
     let responseTimeWrapper = document.getElementsByClassName('response-time')[0];
 
+    let defaultLon = 23.55;
+    let defaultLat = -30.55;
     let geocontextGroup = '';
     let startFetchTime = null;
     let endFetchTime = null;
@@ -34,6 +36,8 @@
             fetchBtn.disabled = false;
         }
         else {
+            loadingContainer.style.display = 'none';
+            fetchBtn.disabled = false;
             alert('Request failed.  Returned status of ' + xhr.status);
         }
     };
@@ -82,7 +86,8 @@
         if (setCenter) {
             map.getView().animate({
                 center: coord,
-                duration: 200
+                zoom: 5,
+                duration: 300
             });
         }
     };
@@ -100,11 +105,16 @@
         if (e.keyCode === 13) {
             coordinateInputChanged(e);
         }
-    }
+    };
     latElm.addEventListener('focusout', coordinateInputChanged);
     lonElm.addEventListener('focusout', coordinateInputChanged);
     latElm.addEventListener('keyup', coordinateInputClicked);
     lonElm.addEventListener('keyup', coordinateInputClicked);
+
+    // Set default lat lon
+    lonElm.value = defaultLon;
+    latElm.value = defaultLat;
+    coordinateInputChanged();
 
     map.on('singleclick', function (evt) {
         let coord = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
