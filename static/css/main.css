@@ -203,3 +203,16 @@ pre {
 .ol-geocoder ul.gcd-gl-result>li>a:hover {
     background-color: #eeeeee;
 }
+
+.ol3-geocoder-btn-search {
+    background-image: none;
+}
+.ol3-geocoder-btn-search:before {
+    content: '🔍';
+    font-size: 0.7em;
+    line-height: 0.8em;
+}
+
+.ol-zoom-in, .ol-zoom-out {
+    font-size: 1.3em !important;
+}

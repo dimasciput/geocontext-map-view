@@ -43,7 +43,7 @@
     };
 
     // Openlayer Map
-    let map = new ol.Map({
+    const map = new ol.Map({
         layers: [
             new ol.layer.Tile({
                 source: new ol.source.TileJSON({
@@ -61,7 +61,7 @@
 
     // Map ICON
     let iconFeature = null;
-    let createOrMoveMapMarker = (coord, setCenter=false) => {
+    const createOrMoveMapMarker = (coord, setCenter=false) => {
         if (!iconFeature) {
             iconFeature = new ol.Feature({
                 geometry: new ol.geom.Point([0, 0]),
@@ -94,14 +94,15 @@
 
     // Geocoder
     //Instantiate with some options and add the Control
-    let geocoder = new Geocoder('nominatim', {
+    const geocoder = new Geocoder('nominatim', {
         provider: 'osm',
         lang: 'en',
         placeholder: 'Search for ...',
         limit: 5,
         debug: false,
         autoComplete: true,
-        keepOpen: true
+        keepOpen: true,
+        preventDefault: true
     });
     map.addControl(geocoder);
 
@@ -131,6 +132,11 @@
 
     //Listen when an address is chosen
     geocoder.on('addresschosen', function (evt) {
+        if (evt.bbox) {
+            map.getView().fit(evt.bbox, { duration: 500 });
+        } else {
+            map.getView().animate({ zoom: 14, center: evt.coordinate });
+        }
         window.setTimeout(function () {
             let coord = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
             lonElm.value = coord[0].toFixed(4);
