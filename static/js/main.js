@@ -92,6 +92,19 @@
         }
     };
 
+    // Geocoder
+    //Instantiate with some options and add the Control
+    let geocoder = new Geocoder('nominatim', {
+        provider: 'osm',
+        lang: 'en',
+        placeholder: 'Search for ...',
+        limit: 5,
+        debug: false,
+        autoComplete: true,
+        keepOpen: true
+    });
+    map.addControl(geocoder);
+
     // Events
     let coordinateInputChanged = (e) => {
         let lon = lonElm.value;
@@ -116,7 +129,17 @@
     latElm.value = defaultLat;
     coordinateInputChanged();
 
-    map.on('singleclick', function (evt) {
+    //Listen when an address is chosen
+    geocoder.on('addresschosen', function (evt) {
+        window.setTimeout(function () {
+            let coord = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+            lonElm.value = coord[0].toFixed(4);
+            latElm.value = coord[1].toFixed(4);
+            createOrMoveMapMarker(evt.coordinate);
+        }, 500);
+    });
+
+    map.on('click', function (evt) {
         let coord = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
         lonElm.value = coord[0].toFixed(4);
         latElm.value = coord[1].toFixed(4);

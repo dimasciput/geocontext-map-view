@@ -186,3 +186,20 @@ pre {
     background-color: #FFF8DC;
     border: 1px solid #e6dfc6;
 }
+
+.ol-geocoder ul.gcd-gl-result>li:nth-child(odd) {
+    background-color: #85cbf91a;
+}
+
+.ol-geocoder ul.gcd-gl-result>li>a {
+    padding: 5px 8px;
+    font-size: 16px;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-transition-property: color, background-color;
+    transition-property: color, background-color;
+}
+
+.ol-geocoder ul.gcd-gl-result>li>a:hover {
+    background-color: #eeeeee;
+}
