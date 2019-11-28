@@ -1,3 +1,15 @@
+function addClass(el, classNameToAdd){
+    el.className += ' ' + classNameToAdd;   
+}
+
+function removeClass(el, classNameToRemove){
+    var elClass = ' ' + el.className + ' ';
+    while(elClass.indexOf(' ' + classNameToRemove + ' ') !== -1){
+         elClass = elClass.replace(' ' + classNameToRemove + ' ', '');
+    }
+    el.className = elClass;
+}
+
 (function () {
     // Element variables
     let latElm = document.getElementById('lat');
@@ -164,6 +176,27 @@
         startFetchTime = (new Date()).getTime();
         xhr.open('GET', `${geocontextUrl}/${lon}/${lat}/${geocontextGroup}`);
         xhr.send();
+    });
+
+    const tabClicked = (e) => {
+      const tab = e.target.getAttribute("data-for");
+      const tabContent = document.getElementById(tab);
+
+      const activeTabContent = tabContent.parentElement.querySelectorAll(".active");
+      [].forEach.call(activeTabContent, function(el) {
+        el.classList.remove("active");
+      });
+
+      [].forEach.call(e.target.parentElement.querySelectorAll(".active"), function(el){
+        el.classList.remove("active");
+      });
+
+      addClass(e.target, "active");
+      addClass(tabContent, "active");
+    };
+
+    Array.from(document.getElementsByClassName("tab-option")).forEach(function(element) {
+      element.addEventListener("click", tabClicked);
     });
 
 })();
