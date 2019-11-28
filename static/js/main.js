@@ -1,3 +1,4 @@
+// Helpers
 function addClass(el, classNameToAdd){
     el.className += ' ' + classNameToAdd;   
 }
@@ -9,6 +10,58 @@ function removeClass(el, classNameToRemove){
     }
     el.className = elClass;
 }
+
+function isCanvas(i) {
+    return i instanceof HTMLCanvasElement;
+}
+
+const monthIndex = {
+    'jan': 1,
+    'feb': 2,
+    'mar': 3,
+    'apr': 4,
+    'may': 5,
+    'jun': 6,
+    'jul': 7,
+    'aug': 8,
+    'sep': 9,
+    'oct': 10,
+    'nov': 11,
+    'des': 12
+}
+
+// Create chart
+const createChart = (containerId, chartData) => {
+    let registries = [];
+    let labels = [];
+    let series = [];
+    if (chartData.hasOwnProperty('service_registry_values')) {
+        registries = chartData['service_registry_values'];
+    }
+    if (registries.length === 0) {
+        // Empty
+        return;
+    }
+    for (let i=0; i<registries.length; i++) {
+        try {
+            if (!registries[i]['value']) {
+                continue;
+            }
+            let month = registries[i]['name'].match(/\((.*?)\)/)[1];
+            series.push(parseFloat(registries[i]['value']));
+            labels.push(monthIndex[month.substring(0,3).toLowerCase()]);
+        } catch (err) {console.log(err)};
+    }
+    new Chartist.Line(`#${containerId}`, {
+        labels: labels,
+        series: [series]
+    });
+};
+
+const createRaw = (containerId, data) => {
+    let container = document.getElementById(containerId);
+    container.innerHTML = JSON.stringify(data, null, 1);
+};
 
 (function () {
     // Element variables
@@ -142,7 +195,7 @@ function removeClass(el, classNameToRemove){
     latElm.value = defaultLat;
     coordinateInputChanged();
 
-    //Listen when an address is chosen
+    // Listen when an address is chosen
     geocoder.on('addresschosen', function (evt) {
         if (evt.bbox) {
             map.getView().fit(evt.bbox, { duration: 500 });
@@ -178,25 +231,31 @@ function removeClass(el, classNameToRemove){
         xhr.send();
     });
 
+    createChart('tab3', rainfallData);
+    createRaw('geocontext-data', rainfallData);
+
     const tabClicked = (e) => {
-      const tab = e.target.getAttribute("data-for");
-      const tabContent = document.getElementById(tab);
+        const tab = e.target.getAttribute("data-for");
+        const tabContent = document.getElementById(tab);
 
-      const activeTabContent = tabContent.parentElement.querySelectorAll(".active");
-      [].forEach.call(activeTabContent, function(el) {
-        el.classList.remove("active");
-      });
+        const activeTabContent = tabContent.parentElement.querySelectorAll(".active");
+        [].forEach.call(activeTabContent, function(el) {
+            el.classList.remove("active");
+        });
 
-      [].forEach.call(e.target.parentElement.querySelectorAll(".active"), function(el){
-        el.classList.remove("active");
-      });
+        [].forEach.call(e.target.parentElement.querySelectorAll(".active"), function(el){
+            el.classList.remove("active");
+        });
 
-      addClass(e.target, "active");
-      addClass(tabContent, "active");
+        addClass(e.target, "active");
+        addClass(tabContent, "active");
+        if (tabContent.dataset.chart === 'true') {
+            tabContent.__chartist__.update();
+        }
     };
 
     Array.from(document.getElementsByClassName("tab-option")).forEach(function(element) {
-      element.addEventListener("click", tabClicked);
+        element.addEventListener("click", tabClicked);
     });
 
 })();

@@ -145,19 +145,17 @@ html,
 }
 
 .geocontext-data-container {
-  background-color: black;
-  color: white;
-  width: 100%;
   margin-bottom: 20px;
+  padding: 20px;
 }
 
 .geocontext-data {
-  display: none;
+  background-color: #232e46;
+  color: white;
   padding: 10px;
   overflow-x: auto;
   overflow-y: auto;
-  max-height: 350px;
-  width: 100%;
+  max-height: 360px;
 }
 
 pre {
@@ -233,6 +231,7 @@ pre {
   font-weight: 300;
   text-align: center;
   padding: 15px;
+  padding-top: 13px;
   border: 2px solid #394a6d;
   height: 50px;
   -webkit-transition-duration: 0.3s;
@@ -261,9 +260,10 @@ pre {
 }
 
 .tab-content {
+  padding-top: 10px;
   border: 2px solid #305c91;
   min-height: 150px;
-  max-height: 300px;
+  max-height: 400px;
   display: none;
 }
 
