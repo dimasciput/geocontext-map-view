@@ -143,6 +143,7 @@ const createTable = (containerId, data) => {
                 tabContent.remove();
                 tabContent = document.createElement('div');
                 addClass(tabContent, 'tab-content');
+                tabContent.dataset.chart = 'true';
                 parent.appendChild(tabContent);
                 tabContent.id = 'tab3';
                 tabContent.innerHTML = '<div class="error">Data cannot be used for a chart.</div>';
