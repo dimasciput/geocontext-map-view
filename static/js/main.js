@@ -15,23 +15,9 @@ function isCanvas(i) {
     return i instanceof HTMLCanvasElement;
 }
 
-const monthIndex = {
-    'jan': 1,
-    'feb': 2,
-    'mar': 3,
-    'apr': 4,
-    'may': 5,
-    'jun': 6,
-    'jul': 7,
-    'aug': 8,
-    'sep': 9,
-    'oct': 10,
-    'nov': 11,
-    'des': 12
-}
-
 // Create chart
 const createChart = (containerId, chartData) => {
+    document.getElementById(containerId).innerHTML = '';
     let registries = [];
     let labels = [];
     let series = [];
@@ -47,20 +33,73 @@ const createChart = (containerId, chartData) => {
             if (!registries[i]['value']) {
                 continue;
             }
-            let month = registries[i]['name'].match(/\((.*?)\)/)[1];
             series.push(parseFloat(registries[i]['value']));
-            labels.push(monthIndex[month.substring(0,3).toLowerCase()]);
-        } catch (err) {console.log(err)};
+            labels.push(i+1);
+        } catch (err) {console.log(err)}
     }
+    // We are setting a few options for our chart and override the defaults
+    let options = {
+        height: 250,
+        // Don't draw the line chart points
+        showPoint: false,
+        // Disable line smoothing
+        lineSmooth: false,
+        // X-Axis specific configuration
+        axisX: {
+            // We can disable the grid for this axis
+            showGrid: true,
+            // and also don't show the label
+            showLabel: true
+        },
+    };
     new Chartist.Line(`#${containerId}`, {
         labels: labels,
         series: [series]
-    });
+    }, options);
 };
 
 const createRaw = (containerId, data) => {
     let container = document.getElementById(containerId);
+    container.innerHTML = '';
     container.innerHTML = JSON.stringify(data, null, 1);
+};
+
+const createTable = (containerId, data) => {
+    let container = document.getElementById(containerId);
+    container.innerHTML = '';
+    let registries = [];
+    if (data.hasOwnProperty('service_registry_values')) {
+        registries = data['service_registry_values'];
+    }
+    if (registries.length === 0) {
+        // Empty
+        return;
+    }
+    for (let i=0; i<registries.length; i++) {
+        try {
+            const name = registries[i]['name'];
+            let value = registries[i]['value'];
+            let floatValue = parseFloat(value);
+            if (!isNaN(floatValue)) {
+                value = floatValue.toFixed(3);
+            }
+            let row = document.createElement('div');
+            addClass(row, 'row');
+
+            let nameElm = document.createElement('div');
+            addClass(nameElm, 'col-sm-8');
+            addClass(nameElm, 'geocontext-table-name');
+            nameElm.innerHTML = name;
+            row.appendChild(nameElm);
+
+            let valueElm = document.createElement('div');
+            addClass(valueElm, 'col-sm-4');
+            addClass(valueElm, 'geocontext-table-value');
+            valueElm.innerHTML = value;
+            row.appendChild(valueElm);
+            container.appendChild(row);
+        } catch (err) {console.log(err)}
+    }
 };
 
 (function () {
@@ -68,7 +107,7 @@ const createRaw = (containerId, data) => {
     let latElm = document.getElementById('lat');
     let lonElm = document.getElementById('lon');
     let fetchBtn = document.getElementById('fetch-button');
-    let geocontextDataElm = document.getElementById('geocontext-data');
+    let geocontextDataElm = document.getElementsByClassName('geocontext-container')[0];
     let loadingContainer = document.getElementsByClassName('loading-container')[0];
     let geocontextGroupSelect = document.getElementById('geocontext-group-select');
     let responseTimeWrapper = document.getElementsByClassName('response-time')[0];
@@ -90,14 +129,26 @@ const createRaw = (containerId, data) => {
         if (xhr.status === 200) {
             endFetchTime = (new Date()).getTime();
             loadingContainer.style.display = 'none';
-            let jsonDataString = JSON.parse(xhr.responseText);
+            const data = JSON.parse(xhr.responseText);
 
             responseTimeWrapper.innerHTML = `Response time : ${endFetchTime - startFetchTime} ms`;
             responseTimeWrapper.style.display = 'block';
-
-            geocontextDataElm.innerHTML = JSON.stringify(jsonDataString, null, 1);
             geocontextDataElm.style.display = 'block';
 
+            if (xhr.responseText.indexOf('monthly') > -1) {
+                createChart('tab3', data);
+            } else {
+                let tabContent = document.getElementById('tab3');
+                let parent = tabContent.parentNode;
+                tabContent.remove();
+                tabContent = document.createElement('div');
+                addClass(tabContent, 'tab-content');
+                parent.appendChild(tabContent);
+                tabContent.id = 'tab3';
+                tabContent.innerHTML = '<div class="error">Data cannot be used for a chart.</div>';
+            }
+            createRaw('geocontext-data', data);
+            createTable('geocontext-table', data);
             fetchBtn.disabled = false;
         }
         else {
@@ -231,9 +282,6 @@ const createRaw = (containerId, data) => {
         xhr.send();
     });
 
-    createChart('tab3', rainfallData);
-    createRaw('geocontext-data', rainfallData);
-
     const tabClicked = (e) => {
         const tab = e.target.getAttribute("data-for");
         const tabContent = document.getElementById(tab);
@@ -250,7 +298,9 @@ const createRaw = (containerId, data) => {
         addClass(e.target, "active");
         addClass(tabContent, "active");
         if (tabContent.dataset.chart === 'true') {
-            tabContent.__chartist__.update();
+            if (typeof tabContent.__chartist__ !== 'undefined') {
+                tabContent.__chartist__.update();
+            }
         }
     };
 

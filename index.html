@@ -28,10 +28,10 @@
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-md-9 no-padding">
+        <div class="col-lg-9 col-md-7 col-sm-12 col-xs-12 no-padding">
             <div id="map" class="map"></div>
         </div>
-        <div class="col-md-3 sidepanel">
+        <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12 sidepanel">
             <div class="sidepanel-title">
                 <img src="static/geocontext-viewer-logo.png" width="100%" alt="">
             </div>
@@ -60,6 +60,8 @@
                         <span class="custom-option selected"
                               data-value="geomorphological_group">Geomorphological Zones</span>
                         <span class="custom-option"
+                              data-value="monthly_mean_daily_average_temperature_group">Monthly Mean Daily Average Temperature</span>
+                        <span class="custom-option"
                               data-value="rainfall_group">Rainfall</span>
                         <span class="custom-option" data-value="elevation_group">Digital Elevation</span>
                     </div>
@@ -70,22 +72,26 @@
                 <button class="fetch-button" id="fetch-button">Fetch!</button>
             </div>
 
-            <div class="tab-wrapper row">
-              <div class="col-sm-4 tab-option active" data-for="tab1">Table</div>
-              <div class="col-sm-4 tab-option" data-for="tab2">Raw</div>
-              <div class="col-sm-4 tab-option" data-for="tab3">Chart</div>
-            </div>
-            <div class="tab-content-wrapper">
-              <div class="tab-content active" id="tab1"></div>
-              <div class="tab-content geocontext-data-container" id="tab2">
-                <pre id="geocontext-data" class="geocontext-data"></pre>
-              </div>
-              <div class="tab-content" id="tab3" data-chart="true"></div>
+            <div class="geocontext-container">
+                <div class="response-time">Response time : 200 ms</div>
+                <div class="tab-wrapper row">
+                    <div class="col-xs-4 tab-option active" data-for="tab1">Table</div>
+                    <div class="col-xs-4 tab-option" data-for="tab2">Raw</div>
+                    <div class="col-xs-4 tab-option" data-for="tab3">Chart</div>
+                </div>
+                <div class="tab-content-wrapper">
+                    <div class="tab-content active" id="tab1">
+                        <div id="geocontext-table"></div>
+                    </div>
+                    <div class="tab-content" id="tab2">
+                        <div class="geocontext-data-container">
+                            <pre id="geocontext-data" class="geocontext-data"></pre>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="tab3" data-chart="true"></div>
+                </div>
             </div>
 
-            <div class="geocontext-data-container">
-                <div class="response-time">Response time : 200 ms</div>
-            </div>
             <div class="loading-container">
                 <img src="static/loading.svg" alt=""/>
             </div>
